@@ -2,10 +2,10 @@
 
 int main(int argc, char const *argv[])
 {
-        int k = 0x1234; 
-        int *ptr = malloc(sizeof(int));
+        char k = 0x18; 
+        char *ptr = (char *)my_malloc(sizeof(char));
         ptr = &k;
         printf("%d\n", *ptr);
-        free(ptr);
+        my_free((void *)ptr);
         return 0;
 }

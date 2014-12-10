@@ -43,7 +43,7 @@ struct block_meta *request_space(struct block_meta *last, size_t size)
 	return block;
 }
 
-void *malloc(size_t size)
+void *my_malloc(size_t size)
 {
 	struct block_meta *block;
 
@@ -76,13 +76,13 @@ struct block_meta *get_block_ptr(void *ptr)
 	return (struct block_meta *)ptr - 1;
 }
 
-void free(void *ptr)
+void my_free(void *ptr)
 {
 	if (!ptr)
 		return;
 
 	struct block_meta *block_ptr = get_block_ptr(ptr);
-	assert(block_ptr->free == 0);
+	
 	assert(block_ptr->magic == 0x77777777 || block_ptr->magic == 0x12345678);
 	block_ptr->free = 1;
 	block_ptr->magic = 0x55555555;	
