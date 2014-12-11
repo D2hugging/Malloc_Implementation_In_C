@@ -8,7 +8,7 @@ struct block_meta {
 	struct block_meta *next;
 	int free;
 	int magic;
-	char data[1];
+	char data[0];
 };
 
 void *global_base = NULL;
@@ -73,7 +73,7 @@ void *my_malloc(size_t size)
 
 struct block_meta *get_block_ptr(void *ptr)
 {
-	return (struct block_meta *)ptr - 1;
+	return (struct block_meta *)((char *)ptr-sizeof(struct block_meta));
 }
 
 void my_free(void *ptr)

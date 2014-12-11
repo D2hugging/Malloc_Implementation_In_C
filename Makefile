@@ -1,1 +1,12 @@
-gcc -O0 -g -W -Wall -Wextra -shared -fPIC malloc.c -o malloc.so
+.PHONY : all clean
+
+CFLAGS=-g -Wall -std=c99
+LDFLAGS=-L . -lmymalloc
+
+all : test
+
+test : test.c
+	gcc $^ $(LDFLAGS) -o $@
+
+clean :
+	rm -f test
