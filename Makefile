@@ -6,7 +6,7 @@ LDFLAGS=-L . -lmymalloc
 all : test
 
 test : test.c
-	gcc $^ $(LDFLAGS) -o $@
+	gcc $^ -g $(LDFLAGS) -o $@
 
 clean :
 	rm -f test
