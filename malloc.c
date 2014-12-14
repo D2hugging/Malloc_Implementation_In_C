@@ -43,7 +43,7 @@ struct block_meta *request_space(struct block_meta *last, size_t size)
 	return block;
 }
 
-void *my_malloc(size_t size)
+void *yamalloc(size_t size)
 {
 	struct block_meta *block;
 
@@ -71,19 +71,49 @@ void *my_malloc(size_t size)
 	return block->data;
 }
 
-struct block_meta *get_block_ptr(void *ptr)
+struct block_meta *get_meta_ptr(void *ptr)
 {
 	return (struct block_meta *)((char *)ptr-sizeof(struct block_meta));
 }
 
-void my_free(void *ptr)
+void yafree(void *ptr)
 {
 	if (!ptr)
 		return;
 
-	struct block_meta *block_ptr = get_block_ptr(ptr);
+	struct block_meta *block_ptr = get_meta_ptr(ptr);
 	
 	assert(block_ptr->magic == 0x77777777 || block_ptr->magic == 0x12345678);
 	block_ptr->free = 1;
 	block_ptr->magic = 0x55555555;	
+}
+
+void *yacalloc(size_t nelem, size_t elsize)
+{
+	if (nelem == 0)
+		return NULL;
+	size_t size = nelem * elsize;
+	void *ptr = yamalloc(size);
+	if (!ptr)
+		return NULL;
+	memset(ptr, 0, size);
+	return ptr;
+}
+
+void *yarealloc(void *ptr, size_t size)
+{
+	if (!ptr)
+		return yamalloc(size);
+	struct block_meta *p = get_meta_ptr(ptr);
+	if (size <= p->size){
+		p->size = size;
+		return ptr;
+	}
+
+	void *newp = yamalloc(size);
+	if (!newp)
+		return NULL;
+	memcpy(newp, ptr, p->size);
+	yafree(ptr);
+	return newp;
 }

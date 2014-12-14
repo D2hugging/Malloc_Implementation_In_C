@@ -1,7 +1,7 @@
 .PHONY : all clean
 
-CFLAGS=-g -Wall -std=c99
-LDFLAGS=-L . -lmymalloc
+CFLAGS=-g -Wall -std=c99 -O3
+LDFLAGS=-L . -lyamalloc
 
 all : test
 

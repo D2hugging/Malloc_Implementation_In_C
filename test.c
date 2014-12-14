@@ -3,9 +3,15 @@
 int main(int argc, char const *argv[])
 {
         int k = 0x18; 
-        int *ptr = (int *)my_malloc(sizeof(int));
+        int *ptr = (int *)yamalloc(sizeof(int));
         *ptr = k;
-        printf("%d\n", *ptr);
-        my_free((void *)ptr);
+        //int *new_ptr = (int *)yarealloc(ptr,10);
+        
+        printf("%p\n", ptr);
+        //printf("%p\n", new_ptr);
+        int *cp = (int *)yacalloc(10, 4);
+        yafree((void *)cp);
+       	yafree((void *)ptr);
+       
         return 0;
 }
