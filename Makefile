@@ -1,6 +1,6 @@
 .PHONY : all clean
 
-CFLAGS=-g -Wall -std=c99 -O3
+CFLAGS=-g -Wall -std=c99 -O0
 LDFLAGS=-L . -lyamalloc
 
 all : test

@@ -32,14 +32,12 @@ struct block_meta *request_space(struct block_meta *last, size_t size)
 		return NULL;
 	assert(block == (struct block_meta *)request);
 
+	block->size = size;
+	block->next = NULL;
+	block->free = 0;
+	block->magic = 0x12345678;
 	if (last)
 		last->next = block;
-	else{
-		block->size = size;
-		block->next = NULL;
-		block->free = 0;
-		block->magic = 0x12345678;
-	}
 	return block;
 }
 

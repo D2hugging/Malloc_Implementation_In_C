@@ -1,17 +1,15 @@
 #include <stdio.h>
+#include <string.h>
 
 int main(int argc, char const *argv[])
 {
-        int k = 0x18; 
-        int *ptr = (int *)yamalloc(sizeof(int));
-        *ptr = k;
-        //int *new_ptr = (int *)yarealloc(ptr,10);
-        
-        printf("%p\n", ptr);
-        //printf("%p\n", new_ptr);
-        int *cp = (int *)yacalloc(10, 4);
-        yafree((void *)cp);
-       	yafree((void *)ptr);
-       
-        return 0;
+    unsigned int *ptr = (unsigned int *)yamalloc(sizeof(int));
+    *ptr = 0x321;
+    int size = 12 * sizeof(int);
+    unsigned int *new_ptr = (unsigned int *)yacalloc(12,sizeof(int));
+    memset(new_ptr, 0x53, size);
+    yafree((void *)ptr);
+   	yafree((void *)new_ptr);
+   
+    return 0;
 }
